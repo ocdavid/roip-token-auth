@@ -15,7 +15,7 @@ begin
     gem.add_dependency('addressable') # Convenience methods for dealing with URI objects
     gem.add_dependency('lorax') # Semantic comparison between multiple XML files permits signatures
 # devise needs to be sourced from git master, so we will leave it in the components
-    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
+    gem.files = Dir["{lib}/*", "{lib}/**/*", "{app}/**/*", "{config}/**/*"]
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
