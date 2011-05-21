@@ -1,29 +1,57 @@
-# encoding: UTF-8
 require 'rubygems'
-begin
-  require 'bundler/setup'
-rescue LoadError
-  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
-end
-
 require 'rake'
-require 'rake/rdoctask'
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.name = "roip_token_auth"
+    gem.summary = %Q{Rights over IP - Active Vouchers}
+    gem.description = %Q{The Upwave, Inc. Rights over IP system packaged as a Rails Engine}
+    gem.email = "david@upwave.com"
+    gem.homepage = "http://github.com/daviduw/roip_token_auth"
+    gem.authors = ["David Watson"]
+    gem.add_dependency('rails', '~> 3.0')
+    gem.add_dependency('addressable') # Convenience methods for dealing with URI objects
+    gem.add_dependency('lorax') # Semantic comparison between multiple XML files permits signatures
+# devise needs to be sourced from git master, so we will leave it in the components
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+end
 
 require 'rake/testtask'
-
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = false
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
 end
+
+begin
+  require 'rcov/rcovtask'
+  Rcov::RcovTask.new do |test|
+    test.libs << 'test'
+    test.pattern = 'test/**/test_*.rb'
+    test.verbose = true
+  end
+rescue LoadError
+  task :rcov do
+    abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
+  end
+end
+
+task :test => :check_dependencies
 
 task :default => :test
 
-Rake::RDocTask.new(:rdoc) do |rdoc|
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Cprgem'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.rdoc')
+  rdoc.title = "roip_token_auth #{version}"
+  rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
