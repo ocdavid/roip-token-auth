@@ -1,10 +1,12 @@
-require 'token_filter.rb'
 require 'rails'
+require 'roip_token_auth.rb'
 
 module RoipTokenAuth
   class Engine < Rails::Engine
-    initializer "roip_token_auth.add_middleware" do |app|
-      app.middleware.use RoipTokenAuth::TokenFilter
+    initializer "roip_token_auth.app_controller" do |app|
+      ActiveSupport.on_load(:action_controller) do
+        include RoipTokenAuth::Controllers::Helpers
+      end
     end
   end
 end
