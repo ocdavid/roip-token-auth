@@ -1,5 +1,6 @@
 require 'rails'
 require 'roip_token_auth.rb'
+require 'roip_text_access_token.rb'
 
 module RoipTokenAuth
   class Engine < Rails::Engine
