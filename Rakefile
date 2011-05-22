@@ -6,8 +6,8 @@ begin
   Jeweler::Tasks.new do |gem|
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     gem.name = "roip_token_auth"
-    gem.summary = %Q{Rights over IP - Active Vouchers}
-    gem.description = %Q{The Upwave, Inc. Rights over IP system packaged as a Rails Engine}
+    gem.summary = %Q{Upwave, Inc. RoIP Token Authentication}
+    gem.description = %Q{The Upwave, Inc. Rights over IP Access Token authentication for Protected Resources}
     gem.email = "david@upwave.com"
     gem.homepage = "http://github.com/daviduw/roip_token_auth"
     gem.authors = ["David Watson"]
@@ -15,7 +15,7 @@ begin
     gem.add_dependency('addressable') # Convenience methods for dealing with URI objects
     gem.add_dependency('lorax') # Semantic comparison between multiple XML files permits signatures
 # devise needs to be sourced from git master, so we will leave it in the components
-    gem.files = Dir["{lib}/*", "{lib}/**/*", "{app}/**/*", "{config}/**/*"]
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

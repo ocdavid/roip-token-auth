@@ -10,20 +10,20 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Watson"]
   s.date = %q{2011-05-21}
-  s.description = %q{The Upwave, Inc. Rights over IP system packaged as a Rails Engine}
+  s.description = %q{The Upwave, Inc. Rights over IP Access Token authentication for Protected Resources}
   s.email = %q{david@upwave.com}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
-    "lib/cprgem.rb",
+    "lib/engine.rb",
     "lib/roip_text_access_token.rb",
     "lib/roip_token_auth.rb"
   ]
   s.homepage = %q{http://github.com/daviduw/roip_token_auth}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.5.2}
-  s.summary = %q{Rights over IP - Active Vouchers}
+  s.summary = %q{Upwave, Inc. RoIP Token Authentication}
   s.test_files = [
     "test/cprgem_test.rb",
     "test/dummy/app/controllers/application_controller.rb",
