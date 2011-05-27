@@ -11,6 +11,7 @@ class RoipTextAccessToken
     
   end
   
+  
   def valid?(path)
     scopeURI = Addressable::URI.parse(self.scope.gsub('"', ''))
     scopePQ = scopeURI.path + (scopeURI.query ? ("?" + scopeURI.query) : "")
@@ -28,7 +29,6 @@ class RoipTextAccessToken
   
   private
   
-  
   def token_digest
     OpenSSL::Digest::SHA1.digest(self.access_token +
     self.scope +
@@ -39,12 +39,12 @@ class RoipTextAccessToken
     
   def dss_validate_signature
     # TODO: support >1 CAS by iterating through keys array
-    pubkey = OpenSSL::PKey::DSA.new(OpenSSL::PKey::DSA.new(cas_public_dss_keys[0]))
-    if (pubkey.sysverify(token_digest, Base64.decode(self.signature)))
+    pubkey = OpenSSL::PKey::DSA.new(cas_public_dss_keys[0])
+    if (pubkey.sysverify(token_digest, Base64.decode64(self.signature)))
       Rails::logger.debug "DSS Signature is valid"
       return true
     else
-      Rails.logger.debug "DSS Signature #{self.signature} is NOT valid"
+      Rails.logger.warn "DSS Signature #{self.signature} is NOT valid"
       return false
     end
   end
@@ -52,13 +52,12 @@ class RoipTextAccessToken
   
   def validate_namespaces
     return true if ! self.namespace
-    if !::RoipTokenAuth::ok_namespaces.empty? && !ok_namespaces.include?(self.namespace)
+    if !ok_namespaces.empty? && !ok_namespaces.include?(self.namespace)
       Rails::logger.warn "Found unacceptable namespace of #{self.namespace} in Access Token"
       return false
     end
     true
   end
-  
   
   # The following two methods are DEPRECATED pre-DSS versions
   
@@ -71,7 +70,7 @@ class RoipTextAccessToken
       Rails::logger.debug "Signature is valid"
       return true
     else
-      Rails::logger.debug "Signature = #{self.signature} is NOT valid"
+      Rails::logger.warn "Signature = #{self.signature} is NOT valid"
       return false
     end
   end
