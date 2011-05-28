@@ -19,7 +19,7 @@ class RoipTextAccessToken
     reqUriURI = Addressable::URI.parse(path)
     reqUriPQ = reqUriURI.path + (reqUriURI.query ? ("?" + reqUriURI.query) : "")
     if (!reqUriPQ.match(Regexp.escape(scopePQ)).nil? &&
-    (Time.zone.parse(self.valid_to).future?) && dss_validate_signature && validate_namespaces)
+    (Time.zone.parse(@valid_to).future?) && dss_validate_signature && validate_namespaces)
       Rails::logger.debug "Token is valid"
       return true
     else
@@ -41,12 +41,12 @@ class RoipTextAccessToken
   def dss_validate_signature  
     cas_public_dss_keys.each do |pktext| # Set an array of pem keys in the initializer
       pubkey = OpenSSL::PKey::DSA.new(pktext)
-      if (pubkey.sysverify(token_digest, Base64.decode64(@signature)))
+      if (pubkey.sysverify(token_digest, Base64.urlsafe_decode64(@signature)))
         Rails::logger.debug "DSS Signature is valid"
         return true
       end
     end
-    Rails.logger.warn "DSS Signature #{@signature} is NOT valid"
+    Rails::logger.warn "DSS Signature #{@signature} is NOT valid"
     return false
   end
 
