@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{roip_token_auth}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Watson"]
-  s.date = %q{2011-05-26}
+  s.date = %q{2011-05-27}
   s.description = %q{The Upwave, Inc. Rights over IP Access Token authentication for Protected Resources}
   s.email = %q{david@upwave.com}
   s.extra_rdoc_files = [
@@ -22,8 +22,30 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/daviduw/roip_token_auth}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
+  s.rubygems_version = %q{1.5.2}
   s.summary = %q{Upwave, Inc. RoIP Token Authentication}
+  s.test_files = [
+    "test/cprgem_test.rb",
+    "test/dummy/app/controllers/application_controller.rb",
+    "test/dummy/app/controllers/dummy_controller.rb",
+    "test/dummy/app/helpers/application_helper.rb",
+    "test/dummy/config/application.rb",
+    "test/dummy/config/boot.rb",
+    "test/dummy/config/environment.rb",
+    "test/dummy/config/environments/development.rb",
+    "test/dummy/config/environments/production.rb",
+    "test/dummy/config/environments/test.rb",
+    "test/dummy/config/initializers/backtrace_silencers.rb",
+    "test/dummy/config/initializers/inflections.rb",
+    "test/dummy/config/initializers/mime_types.rb",
+    "test/dummy/config/initializers/roip_token_auth.rb",
+    "test/dummy/config/initializers/secret_token.rb",
+    "test/dummy/config/initializers/session_store.rb",
+    "test/dummy/config/routes.rb",
+    "test/integration/navigation_test.rb",
+    "test/support/integration_case.rb",
+    "test/test_helper.rb"
+  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

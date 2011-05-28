@@ -4,16 +4,17 @@ class RoipTextAccessToken
   include RoipTokenAuth
   attr_reader :access_token, :scope, :valid_to, :signature, :namespace, :refresh
   
-  def initialize(h)
-    if h.respond_to? :keys
-      h.keys.each { |name| instance_variable_set "@" + name.to_s, h[name] }
+  # Can initialize with either a hash or a JSON string
+  def initialize(hashOrJson)
+    if !hashOrJson.respond_to? :keys
+      hashOrJson = JSON.parse hashOrJson
     end
-    
+    hashOrJson.keys.each { |name| instance_variable_set "@" + name.to_s, hashOrJson[name] }
   end
   
   
   def valid?(path)
-    scopeURI = Addressable::URI.parse(self.scope.gsub('"', ''))
+    scopeURI = Addressable::URI.parse(@scope.gsub('"', ''))
     scopePQ = scopeURI.path + (scopeURI.query ? ("?" + scopeURI.query) : "")
     reqUriURI = Addressable::URI.parse(path)
     reqUriPQ = reqUriURI.path + (reqUriURI.query ? ("?" + reqUriURI.query) : "")
@@ -30,53 +31,32 @@ class RoipTextAccessToken
   private
   
   def token_digest
-    OpenSSL::Digest::SHA1.digest(self.access_token +
-    self.scope +
-    self.valid_to +
-    (self.namespace.present? ? self.namespace : ""))
+    OpenSSL::Digest::SHA1.digest(@access_token +
+    @scope +
+    @valid_to +
+    (@namespace.present? ? @namespace : ""))
   end
     
     
-  def dss_validate_signature
-    # TODO: support >1 CAS by iterating through keys array
-    pubkey = OpenSSL::PKey::DSA.new(cas_public_dss_keys[0])
-    if (pubkey.sysverify(token_digest, Base64.decode64(self.signature)))
-      Rails::logger.debug "DSS Signature is valid"
-      return true
-    else
-      Rails.logger.warn "DSS Signature #{self.signature} is NOT valid"
-      return false
+  def dss_validate_signature  
+    cas_public_dss_keys.each do |pktext| # Set an array of pem keys in the initializer
+      pubkey = OpenSSL::PKey::DSA.new(pktext)
+      if (pubkey.sysverify(token_digest, Base64.decode64(@signature)))
+        Rails::logger.debug "DSS Signature is valid"
+        return true
+      end
     end
+    Rails.logger.warn "DSS Signature #{@signature} is NOT valid"
+    return false
   end
-  
+
   
   def validate_namespaces
-    return true if ! self.namespace
-    if !ok_namespaces.empty? && !ok_namespaces.include?(self.namespace)
-      Rails::logger.warn "Found unacceptable namespace of #{self.namespace} in Access Token"
+    return true if ! @namespace
+    if !ok_namespaces.empty? && !ok_namespaces.include?(@namespace)
+      Rails::logger.warn "Found unacceptable namespace of #{@namespace} in Access Token"
       return false
     end
     true
-  end
-  
-  # The following two methods are DEPRECATED pre-DSS versions
-  
-  def validate_signature
-    [ self.access_token, self.scope, self.valid_to ].map { |i| return false if ! i }
-    if sign(self.access_token +
-      self.scope +
-      self.valid_to +
-      (self.namespace.present? ? self.namespace : "")) == self.signature
-      Rails::logger.debug "Signature is valid"
-      return true
-    else
-      Rails::logger.warn "Signature = #{self.signature} is NOT valid"
-      return false
-    end
-  end
-  
-  
-  def sign(str)
-    "Provisional-" + ActiveSupport::Base64.encode64s(Digest::SHA2.new(512).digest(str + ::RoipTokenAuth::SIGNINGSECRET))
   end
 end
