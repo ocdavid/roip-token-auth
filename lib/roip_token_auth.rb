@@ -1,10 +1,9 @@
 module RoipTokenAuth
 
-  mattr_accessor :ok_namespaces, :cas_public_dss_keys
+  mattr_accessor :cas_public_dss_keys
   
   # Configure these in the parent app's config/initializers/roip_token_auth.rb, e.g.:
-  #    RoipTokenAuth::ok_namespaces = [ "foo", "bar", "baz/foobar" ]
-  @@ok_namespaces = [] # The list of namespaces this server will accept and serve - should include its primary hostname
+  #    RoipTokenAuth::cas_public_dss_keys = [ "-----BEGIN PUBLIC KEY-----..." ]
   @@cas_public_dss_keys = [] # The list of DSS public keys in PEM format, one per Authorization Server whose access tokens are trusted
 
   require 'engine' if defined?(Rails)

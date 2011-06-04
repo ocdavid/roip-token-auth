@@ -1,2 +1,22 @@
 # Configuration for the Roip Token Authentication gem
-RoipTokenAuth::ok_namespaces = ["foo", "bar", "baz"]
+RoipTokenAuth::cas_public_dss_keys = [ "-----BEGIN PUBLIC KEY-----
+MIIDOzCCAi4GByqGSM44BAEwggIhAoIBAQCTdP5JEmdoIZcAxIU0YRD8gU841NWt
+Er7hlchBvk2X9wZsnVfXRZMLaNUv76Cd6uwBCswLvC6bgoulhKBceMF1PbeAoEOv
+c3M7OPmN1VHbywNnqhq3lat84+EB30yumT9eqcaLc/gygNZNBlh3hdVJs9AnU82D
+pOg/yhmRzfa59qHGBMdfFjuTORCcwenFlTjg6TvcdC0bAQkwLsvIUz2z1ERqnTh9
+GKJhGLe6qzSoMSDpIsp6WMLZ8/cF3bwWjgkjY7BiNXjRZe/yGcHn5s1Zo2G+ipsm
++l7hoUDINFi081KxDfYLByr+8s4cwZZFQwA0B91V5rlRblYt7xYkQTAbAhUApdR3
+cGtdxwRTwLcA4A4IPypOFXUCggEBAIkphqQ8ST6DLNsb9heHZqNQs7wCA2p+tLbz
+Doti96rFTKnHhuMiygRzSJtDpgoVkN9h3QqRC0voQRHOMUnj75622a0Sx4C65f1D
+P23WGNNZP/GCImCWXWDaur6wNkCT9MqTmgvT+G7csN80vi9+71SOvKDRp0sL//Xj
+R1chc8kcIHo69EWLJvN5e+P8d3z4e7jZMaffmaZgat65KJWtSkBjyd88VQz7YSzQ
+k+OrjJ/nk2C5qCUYIysC3r10qzb0LAZ8XGw6/SAsw0cVydwCjOHKX28Fz2niKQE5
+gX5KCElxZaKH3AAWidEvk3B3hQ3eQMX0pO0kZ3BnBNFnsd6kIw8DggEFAAKCAQAL
+X3MdP4Uk8xFVc4BkJwAt8EtP3qf0AL2Dhe31eMyi5O9HTaZUvIzXnZsRdflTaRNG
+CoXMjT3Lx+pFR4mDAbLhP73CRFcWhNjDhEeQ155cbkpotmdVQfGjA9dtvJ0StWUH
+OyPrksslEiu2WYykSj3ARY7o+0W6iYAimsxpdYVNyg/bbRgR4oG3140K9JlLVhPQ
+67WgLAehh4dmBpof2yrboErxv35sIRAzTzVeZORQGjn6wIQesE8bNLo83pk5hpDC
+kB+gKi6zCenHgxe3QpjHuecJK2nU0+KGn0n/2XSHM7Wm8ucnmKUYVKeJT8v/Nnpn
+mSTwHErsGSEKB/4z+rH/
+-----END PUBLIC KEY-----
+" ]
