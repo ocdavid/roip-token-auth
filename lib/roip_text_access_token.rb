@@ -33,7 +33,7 @@ class RoipTextAccessToken
   def token_digest
     OpenSSL::Digest::SHA1.digest(@access_token +
     @scope +
-    @valid_to) +
+    @valid_to)
   end
     
     
