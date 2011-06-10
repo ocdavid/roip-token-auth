@@ -13,10 +13,11 @@ module RoipTokenAuth
       def roip_token_filter
         if request.headers["HTTP_AUTHORIZATION"] && 
           ((oauth_string = request.headers["HTTP_AUTHORIZATION"].gsub!(/^.*Oauth /, "")).size > 0)
+          Rails.logger.debug "JSON Oauth token is #{oauth_string}"
           theToken = RoipTextAccessToken.new(JSON.parse oauth_string)
         end
 
-        if ! (theToken && theToken.valid?(request.fullpath))
+        if ! (theToken && theToken.valid?(request.fullpath, request.request_method))
           # TODO: Allow the parent app to set a "failure" route
           render :text => "Invalid RoIP Token", :status => 401
         end

@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{roip_token_auth}
-  s.version = "0.2.5"
+  s.version = "0.2.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Watson"]
-  s.date = %q{2011-06-03}
+  s.date = %q{2011-06-09}
   s.description = %q{The Upwave, Inc. Rights over IP Access Token authentication for Protected Resources}
   s.email = %q{david@upwave.com}
   s.extra_rdoc_files = [

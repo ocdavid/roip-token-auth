@@ -2,7 +2,7 @@ require 'addressable/uri'
 
 class RoipTextAccessToken
   include RoipTokenAuth
-  attr_reader :access_token, :scope, :valid_to, :signature, :refresh
+  attr_reader :access_token, :scope, :http_method, :valid_to, :signature, :refresh
   
   # Can initialize with either a hash or a JSON string
   def initialize(hashOrJson)
@@ -13,13 +13,17 @@ class RoipTextAccessToken
   end
   
   
-  def valid?(path)
+  def valid?(path, req_method)
     scopeURI = Addressable::URI.parse(@scope.gsub('"', ''))
     scopePQ = scopeURI.path + (scopeURI.query ? ("?" + scopeURI.query) : "")
     reqUriURI = Addressable::URI.parse(path)
     reqUriPQ = reqUriURI.path + (reqUriURI.query ? ("?" + reqUriURI.query) : "")
     if (!reqUriPQ.match(Regexp.escape(scopePQ)).nil? &&
-    (Time.zone.parse(@valid_to).future?) && dss_validate_signature)
+    Time.zone.parse(@valid_to).future? && 
+    # Add this check when we are ready to generate Rights with the correct HTTP methods
+    # including param_template_url calls (probably as separate Rights)
+    #  req_method == @http_method &&
+    dss_validate_signature)
       Rails::logger.debug "Token is valid"
       return true
     else
@@ -33,6 +37,7 @@ class RoipTextAccessToken
   def token_digest
     OpenSSL::Digest::SHA1.digest(@access_token +
     @scope +
+    @http_method +
     @valid_to)
   end
     
