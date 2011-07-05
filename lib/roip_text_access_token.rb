@@ -21,8 +21,8 @@ class RoipTextAccessToken
     if (!reqUriPQ.match(Regexp.escape(scopePQ)).nil? &&
     Time.zone.parse(@valid_to).future? && 
     # Add this check when we are ready to generate Rights with the correct HTTP methods
-    # including param_template_url calls (probably as separate Rights)
-    #  req_method == @http_method &&
+    # Any method in the Token also permits GETs
+    (req_method == @http_method || req_method == "GET") &&
     dss_validate_signature)
       Rails::logger.debug "Token is valid"
       return true
