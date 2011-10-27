@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{roip_token_auth}
-  s.version = "0.2.9"
+  s.name = "roip_token_auth"
+  s.version = "0.2.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{David Watson}]
-  s.date = %q{2011-09-10}
-  s.description = %q{The Upwave, Inc. Rights over IP Access Token authentication for Protected Resources}
-  s.email = %q{david@upwave.com}
+  s.authors = ["David Watson"]
+  s.date = "2011-10-27"
+  s.description = "The Upwave, Inc. Rights over IP Access Token authentication for Protected Resources"
+  s.email = "david@upwave.com"
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
@@ -20,10 +20,10 @@ Gem::Specification.new do |s|
     "lib/roip_text_access_token.rb",
     "lib/roip_token_auth.rb"
   ]
-  s.homepage = %q{http://github.com/daviduw/roip_token_auth}
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.6}
-  s.summary = %q{Upwave, Inc. RoIP Token Authentication}
+  s.homepage = "http://github.com/daviduw/roip_token_auth"
+  s.require_paths = ["lib"]
+  s.rubygems_version = "1.8.10"
+  s.summary = "Upwave, Inc. RoIP Token Authentication"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
