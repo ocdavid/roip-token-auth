@@ -52,6 +52,7 @@ module RoipTokenAuth
           headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
           headers['Access-Control-Allow-Headers'] = 'Authorization, X-Requested-With, X-Prototype-Version'
           headers['Access-Control-Max-Age'] = '1728000'
+	  logger.debug "Preflight headers: #{response.headers.inspect}"
           render :text => '', :content_type => 'text/plain'
         end
       end
