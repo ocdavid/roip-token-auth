@@ -16,7 +16,12 @@ class RoipTextAccessToken
   def valid?(path, req_method)
     scopeURI = Addressable::URI.parse(@scope.gsub('"', ''))
     scopePQ = scopeURI.path + (scopeURI.query ? ("?" + scopeURI.query) : "")
-    reqUriURI = Addressable::URI.parse(path)
+
+    # Requested format (as specified in query URL -- not expanded e.g.,
+    # ".json" vs. "application/json") is included in request path
+    # TODO: add a config variable to make this validation relaxation optional
+    reqUriURI = Addressable::URI.parse(path.sub(/\.json$|\.xml$|\.html$/, ""))
+
     reqUriPQ = reqUriURI.path + (reqUriURI.query ? ("?" + reqUriURI.query) : "")
     if (!reqUriPQ.match(Regexp.escape(scopePQ)).nil? &&
     Time.zone.parse(@valid_to).future? && 
