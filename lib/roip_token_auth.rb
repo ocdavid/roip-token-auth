@@ -6,12 +6,12 @@ module RoipTokenAuth
   # and cors_set_access_control_headers to be used as an after_filter.
 
   # To allow AJAX requests from anywhere to pick up token-validated assets:
-  #   1. First in the filter chain, use before_filter :cors_preflight_access_check to
-  #       return a blank text body with necessary headers for subsequent AJAX requests to work.
-  #   1. Next, use before_filter :roip_token_filter to filter incoming requests
-  #   2. Following that in the filter chain, use after_filter :cors_set_access_control_headers
+  #   1. Use before_filter :roip_token_filter to filter incoming requests
+  #   2. Use after_filter :cors_set_access_control_headers
   #      to set outgoing header options.
-  #   3. Be sure the parent site's routes.rb allows OPTIONS queries to the assets controller.
+  #   3. Be sure the parent site's routes.rb sends OPTIONS queries to a
+  #      one-line method or case responding to OPTIONS verb by rendering null text.
+  #      The headers will have been set by #2 above.
 
   # CORS (Cross-Origin Resource Sharing) is safe since only token-authorized requests
   # will be presented as long as before_filter :roip_token_filter is used to filter
@@ -33,8 +33,6 @@ module RoipTokenAuth
           theToken = RoipTextAccessToken.new(JSON.parse oauth_string)
         end
 
-
-
         if ! (theToken && theToken.valid?(request.fullpath, request.request_method))
           # TODO: Allow the parent app to set a "failure" route
           response.headers["Access-Control-Allow-Origin"] = "*" # For XMLHttpRequests from anywhere
@@ -42,23 +40,9 @@ module RoipTokenAuth
         end
       end
 
-      
-      # If this is a preflight OPTIONS request, then short-circuit the
-      # request, return only the necessary headers and return an empty
-      # text/plain.
-      def cors_preflight_check
-        if request.method == :options
-          headers['Access-Control-Allow-Origin'] = '*'
-          headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
-          headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version'
-          headers['Access-Control-Max-Age'] = '1728000'
-          render :text => '', :content_type => 'text/plain'
-        end
-      end
-
-
       def cors_set_access_control_headers
         headers['Access-Control-Allow-Origin'] = '*'
+        headers['Access-Control-Allow-Headers'] = 'Authorization, X-Requested-With, X-Prototype-Version'
         headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
         headers['Access-Control-Max-Age'] = "1728000"
       end
